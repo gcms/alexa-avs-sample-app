@@ -89,6 +89,7 @@ public class MultipartParser extends MessageParser implements ConnectionListener
     }
 
     private void handleMetadata(byte[] partBytes) throws IOException {
+        log.debug("Handling metadata: " + new String(partBytes).replaceAll("\\s+", " "));
         Directive directive = parseResponseBody(partBytes).getDirective();
         if (directive != null) {
             consumer.onDirective(directive);

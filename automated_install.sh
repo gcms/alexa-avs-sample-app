@@ -13,7 +13,7 @@ ClientID=YOUR_CLIENT_ID_HERE
 # Retrieve your client secret from the web settings tab within the developer console: https://developer.amazon.com/edw/home.html
 ClientSecret=YOUR_CLIENT_SECRET_HERE
 
-source credentials
+source ~/.alexa/credentials
 
 #-------------------------------------------------------
 # No need to change anything below this...
@@ -434,7 +434,7 @@ echo "==============================================="
 echo ""
 echo ""
 echo "=========== Installing Oracle Java8 ==========="
-echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+#echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
 chmod +x $Java_Client_Loc/install-java8.sh
 cd $Java_Client_Loc && bash ./install-java8.sh
 cd $Origin
@@ -474,7 +474,7 @@ sudo apt-get -y install libatlas-base-dev
 sudo ldconfig
 
 echo "========== Installing VLC and associated Environmental Variables =========="
-sudo apt-get install -y vlc vlc-nox vlc-data
+sudo apt-get install -y vlc-nox vlc-data
 #Make sure that the libraries can be found
 sudo sh -c "echo \"/usr/lib/vlc\" >> /etc/ld.so.conf.d/vlc_lib.conf"
 sudo sh -c "echo \"VLC_PLUGIN_PATH=\"/usr/lib/vlc/plugin\"\" >> /etc/environment"
