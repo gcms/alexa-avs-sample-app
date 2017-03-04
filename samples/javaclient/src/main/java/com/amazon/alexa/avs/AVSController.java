@@ -80,7 +80,7 @@ public class AVSController implements RecordingStateListener, AlertHandler, Aler
     private static final String START_SOUND = "res/start.mp3";
     private static final String END_SOUND = "res/stop.mp3";
     private static final String ERROR_SOUND = "res/error.mp3";
-    private static final SpeechProfile PROFILE = SpeechProfile.NEAR_FIELD;
+    private static final SpeechProfile PROFILE = SpeechProfile.FAR_FIELD;
     private static final String FORMAT = "AUDIO_L16_RATE_16000_CHANNELS_1";
 
     private static final Logger log = LoggerFactory.getLogger(AVSController.class);

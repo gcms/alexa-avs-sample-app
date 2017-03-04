@@ -12,40 +12,6 @@
  */
 package com.amazon.alexa.avs;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Desktop;
-import java.awt.Desktop.Action;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.util.Locale;
-import java.util.Properties;
-
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingWorker;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.amazon.alexa.avs.auth.AccessTokenListener;
 import com.amazon.alexa.avs.auth.AuthSetup;
 import com.amazon.alexa.avs.auth.companionservice.RegCodeDisplayHandler;
@@ -54,9 +20,21 @@ import com.amazon.alexa.avs.config.DeviceConfigUtils;
 import com.amazon.alexa.avs.http.AVSClientFactory;
 import com.amazon.alexa.avs.wakeword.WakeWordDetectedHandler;
 import com.amazon.alexa.avs.wakeword.WakeWordIPCFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Properties;
 
 @SuppressWarnings("serial")
-public class AVSApp extends JFrame
+public class AVSApp
         implements ExpectSpeechListener, RecordingRMSListener, RegCodeDisplayHandler,
         AccessTokenListener, ExpectStopCaptureListener, WakeWordDetectedHandler {
 
@@ -70,11 +48,11 @@ public class AVSApp extends JFrame
     private static final String PAUSE_LABEL = "\u275A\u275A";
     private static final String PLAY_LABEL = "\u25B6";
     private final AVSController controller;
-    private JButton actionButton;
-    private JButton playPauseButton;
-    private Container playbackPanel;
-    private JTextField tokenTextField;
-    private JProgressBar visualizer;
+//    private JButton actionButton;
+//    private JButton playPauseButton;
+//    private Container playbackPanel;
+//    private JTextField tokenTextField;
+//    private JProgressBar visualizer;
     private final DeviceConfig deviceConfig;
 
     private String accessToken;
@@ -118,18 +96,23 @@ public class AVSApp extends JFrame
         authSetup.addAccessTokenListener(controller);
         authSetup.startProvisioningThread();
 
-        addTopPanel();
-        addLocaleSelector();
-        addTokenField();
-        addVisualizerField();
-        addActionField();
-        addPlaybackButtons();
+        System.out.println("ProductID: " + deviceConfig.getProductId() + "\t"
+                + "DSN: " + deviceConfig.getDsn());
 
-        getContentPane().setLayout(new GridLayout(0, 1));
-        setTitle(getAppTitle());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 230);
-        setVisible(true);
+//        addTopPanel();
+//        addLocaleSelector();
+//        addTokenField();
+//        addVisualizerField();
+//        addActionField();
+//        addPlaybackButtons();
+
+//        getContentPane().setLayout(new GridLayout(0, 1));
+//        setTitle(getAppTitle());
+//        setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        setSize(400, 230);
+//        setVisible(true);
+
+        buttonState = ButtonState.START;
         controller.initializeStopCaptureHandler(this);
         controller.startHandlingDirectives();
     }
@@ -160,122 +143,147 @@ public class AVSApp extends JFrame
         return new AVSClientFactory(config);
     }
 
-    private void addTopPanel() {
-        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
-        flowLayout.setHgap(0);
-        JPanel topPanel = new JPanel(flowLayout);
-        addDeviceField(topPanel);
-        getContentPane().add(topPanel);
+//    private void addTopPanel() {
+//        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
+//        flowLayout.setHgap(0);
+//        JPanel topPanel = new JPanel(flowLayout);
+//        addDeviceField(topPanel);
+//        getContentPane().add(topPanel);
+//    }
+//
+//    private void addDeviceField(JPanel devicePanel) {
+//        JLabel productIdLabel = new JLabel(deviceConfig.getProductId());
+//        JLabel dsnLabel = new JLabel(deviceConfig.getDsn());
+//        productIdLabel.setFont(productIdLabel.getFont().deriveFont(Font.PLAIN));
+//        dsnLabel.setFont(dsnLabel.getFont().deriveFont(Font.PLAIN));
+//
+//        devicePanel.add(new JLabel("Device: "));
+//        devicePanel.add(productIdLabel);
+//        devicePanel.add(Box.createRigidArea(new Dimension(15, 0)));
+//        devicePanel.add(new JLabel("DSN: "));
+//        devicePanel.add(dsnLabel);
+//        devicePanel.add(Box.createRigidArea(new Dimension(15, 0)));
+//    }
+//
+//    private void addLocaleSelector() {
+//        JPanel localePanel = new JPanel();
+//        FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 0, 0);
+//        localePanel.setLayout(layout);
+//        JLabel localeLabel = new JLabel("Locale: ");
+//        localePanel.add(localeLabel);
+//        Object[] locales = DeviceConfig.SUPPORTED_LOCALES.toArray();
+//        JComboBox<Object> localeSelector = new JComboBox<>(locales);
+//        localeSelector.setSelectedItem(deviceConfig.getLocale());
+//        localeSelector.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Locale locale = (Locale) localeSelector.getSelectedItem();
+//                deviceConfig.setLocale(locale);
+//                DeviceConfigUtils.updateConfigFile(deviceConfig);
+//                controller.setLocale(locale);
+//            }
+//        });
+//        localePanel.add(localeSelector);
+//        getContentPane().add(localePanel);
+//    }
+
+//    private void addTokenField() {
+//        getContentPane().add(new JLabel("Bearer Token:"));
+//        tokenTextField = new JTextField(50);
+//        tokenTextField.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                setToken(tokenTextField.getText());
+//            }
+//        });
+//        getContentPane().add(tokenTextField);
+//
+//        if (accessToken != null) {
+//            tokenTextField.setText(accessToken);
+//            accessToken = null;
+//        }
+//    }
+
+    public void setToken(String token) {
+        controller.onUserActivity();
+        authSetup.onAccessTokenReceived(token);
     }
 
-    private void addDeviceField(JPanel devicePanel) {
-        JLabel productIdLabel = new JLabel(deviceConfig.getProductId());
-        JLabel dsnLabel = new JLabel(deviceConfig.getDsn());
-        productIdLabel.setFont(productIdLabel.getFont().deriveFont(Font.PLAIN));
-        dsnLabel.setFont(dsnLabel.getFont().deriveFont(Font.PLAIN));
+//    private void addVisualizerField() {
+//        visualizer = new JProgressBar(0, 100);
+//        getContentPane().add(visualizer);
+//    }
 
-        devicePanel.add(new JLabel("Device: "));
-        devicePanel.add(productIdLabel);
-        devicePanel.add(Box.createRigidArea(new Dimension(15, 0)));
-        devicePanel.add(new JLabel("DSN: "));
-        devicePanel.add(dsnLabel);
-        devicePanel.add(Box.createRigidArea(new Dimension(15, 0)));
+//    private void addActionField() {
+//        actionButton = new JButton(LISTEN_LABEL);
+//        buttonState = ButtonState.START;
+//        actionButton.setEnabled(true);
+//        actionButton.addActionListener(e -> listen());
+//        getContentPane().add(actionButton);
+//    }
+
+    public void listen() {
+        new Thread(this::doListen).start();
     }
 
-    private void addLocaleSelector() {
-        JPanel localePanel = new JPanel();
-        FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 0, 0);
-        localePanel.setLayout(layout);
-        JLabel localeLabel = new JLabel("Locale: ");
-        localePanel.add(localeLabel);
-        Object[] locales = DeviceConfig.SUPPORTED_LOCALES.toArray();
-        JComboBox<Object> localeSelector = new JComboBox<>(locales);
-        localeSelector.setSelectedItem(deviceConfig.getLocale());
-        localeSelector.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Locale locale = (Locale) localeSelector.getSelectedItem();
-                deviceConfig.setLocale(locale);
-                DeviceConfigUtils.updateConfigFile(deviceConfig);
-                controller.setLocale(locale);
-            }
-        });
-        localePanel.add(localeSelector);
-        getContentPane().add(localePanel);
-    }
+    public synchronized void doListen() {
+        final RecordingRMSListener rmsListener = this;
 
-    private void addTokenField() {
-        getContentPane().add(new JLabel("Bearer Token:"));
-        tokenTextField = new JTextField(50);
-        tokenTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.onUserActivity();
-                authSetup.onAccessTokenReceived(tokenTextField.getText());
-            }
-        });
-        getContentPane().add(tokenTextField);
+        controller.onUserActivity();
 
-        if (accessToken != null) {
-            tokenTextField.setText(accessToken);
-            accessToken = null;
+        if (buttonState == ButtonState.START) { // if in idle mode
+            buttonState = ButtonState.STOP;
+            setPlaybackControlEnabled(false);
+
+            RequestListener requestListener = new RequestListener() {
+
+                @Override
+                public void onRequestSuccess() {
+                    // In case we get a response from the server without
+                    // terminating the stream ourselves.
+                    if (buttonState == ButtonState.STOP) {
+                        listen();//actionButton.doClick();
+                    }
+                    finishProcessing();
+                }
+
+                @Override
+                public void onRequestError(Throwable e) {
+                    log.error("An error occured creating speech request", e);
+//                    JOptionPane.showMessageDialog(getContentPane(), e.getMessage(), "Error",
+//                            JOptionPane.ERROR_MESSAGE);
+                    listen();//actionButton.doClick();
+                    finishProcessing();
+                }
+            };
+            System.out.println("controller.startRecording");
+            controller.startRecording(rmsListener, requestListener);
+        } else { // else we must already be in listening
+            setListenStatus(PROCESSING_LABEL);
+
+            System.out.println("visualizer.setIndeterminate(true)");
+//                    visualizer.setIndeterminate(true);
+            buttonState = ButtonState.PROCESSING;
+            controller.stopRecording(); // stop the recording so the request can complete
         }
     }
 
-    private void addVisualizerField() {
-        visualizer = new JProgressBar(0, 100);
-        getContentPane().add(visualizer);
+    private boolean enabled = true;
+
+    public boolean getListenEnabled() {
+        return enabled;
     }
 
-    private void addActionField() {
-        final RecordingRMSListener rmsListener = this;
-        actionButton = new JButton(LISTEN_LABEL);
-        buttonState = ButtonState.START;
-        actionButton.setEnabled(true);
-        actionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.onUserActivity();
-
-                if (buttonState == ButtonState.START) { // if in idle mode
-                    buttonState = ButtonState.STOP;
-                    setPlaybackControlEnabled(false);
-
-                    RequestListener requestListener = new RequestListener() {
-
-                        @Override
-                        public void onRequestSuccess() {
-                            // In case we get a response from the server without
-                            // terminating the stream ourselves.
-                            if (buttonState == ButtonState.STOP) {
-                                actionButton.doClick();
-                            }
-                            finishProcessing();
-                        }
-
-                        @Override
-                        public void onRequestError(Throwable e) {
-                            log.error("An error occured creating speech request", e);
-                            JOptionPane.showMessageDialog(getContentPane(), e.getMessage(), "Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                            actionButton.doClick();
-                            finishProcessing();
-                        }
-                    };
-                    controller.startRecording(rmsListener, requestListener);
-                } else { // else we must already be in listening
-                    actionButton.setText(PROCESSING_LABEL); // go into processing mode
-                    actionButton.setEnabled(false);
-                    visualizer.setIndeterminate(true);
-                    buttonState = ButtonState.PROCESSING;
-                    controller.stopRecording(); // stop the recording so the request can complete
-                }
-            }
-        });
-
-        getContentPane().add(actionButton);
+    public void setListenEnabled(boolean state) {
+//        actionButton.setEnabled(state);
+        System.out.println("Listen enabled: " + state);
+        enabled = state;
     }
 
+    public void setListenStatus(String status) {
+        //actionButton.setText(status);
+        System.out.println("Listen status: " + status);
+    }
     /**
      * Respond to a music button press event
      *
@@ -286,14 +294,16 @@ public class AVSApp extends JFrame
         SwingWorker<Void, Void> alexaCall = new SwingWorker<Void, Void>() {
             @Override
             public Void doInBackground() throws Exception {
-                visualizer.setIndeterminate(true);
+                System.out.println("visualizer.setIndeterminate(true)");
+//                visualizer.setIndeterminate(true);
                 controller.handlePlaybackAction(action);
                 return null;
             }
 
             @Override
             public void done() {
-                visualizer.setIndeterminate(false);
+                System.out.println("visualizer.setIndeterminate(false)");
+//                visualizer.setIndeterminate(false);
             }
         };
         alexaCall.execute();
@@ -313,7 +323,8 @@ public class AVSApp extends JFrame
     }
 
     private void setPlaybackControlEnabled(boolean enable) {
-        setComponentsOfContainerEnabled(playbackPanel, enable);
+        System.out.println("Enable playback controllers: " + enable);
+//        setComponentsOfContainerEnabled(playbackPanel, enable);
     }
 
     /**
@@ -336,44 +347,50 @@ public class AVSApp extends JFrame
     /**
      * Add music control buttons
      */
-    private void addPlaybackButtons() {
-        playbackPanel = new JPanel();
-        playbackPanel.setLayout(new GridLayout(1, 5));
+//    private void addPlaybackButtons() {
+//        playbackPanel = new JPanel();
+//        playbackPanel.setLayout(new GridLayout(1, 5));
+//
+//        playPauseButton = new JButton(PLAY_LABEL + "/" + PAUSE_LABEL);
+//        playPauseButton.setEnabled(true);
+//        playPauseButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                playPause();
+//            }
+//        });
+//
+//        createMusicButton(playbackPanel, PREVIOUS_LABEL, PlaybackAction.PREVIOUS);
+//        playbackPanel.add(playPauseButton);
+//
+//        createMusicButton(playbackPanel, NEXT_LABEL, PlaybackAction.NEXT);
+//        getContentPane().add(playbackPanel);
+//    }
 
-        playPauseButton = new JButton(PLAY_LABEL + "/" + PAUSE_LABEL);
-        playPauseButton.setEnabled(true);
-        playPauseButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+    public void playPause() {
+        controller.onUserActivity();
+        if (controller.isPlaying()) {
+            musicButtonPressedEventHandler(PlaybackAction.PAUSE);
+        } else {
+            musicButtonPressedEventHandler(PlaybackAction.PLAY);
+        }
 
-                controller.onUserActivity();
-                if (controller.isPlaying()) {
-                    musicButtonPressedEventHandler(PlaybackAction.PAUSE);
-                } else {
-                    musicButtonPressedEventHandler(PlaybackAction.PLAY);
-                }
-            }
-        });
-
-        createMusicButton(playbackPanel, PREVIOUS_LABEL, PlaybackAction.PREVIOUS);
-        playbackPanel.add(playPauseButton);
-
-        createMusicButton(playbackPanel, NEXT_LABEL, PlaybackAction.NEXT);
-        getContentPane().add(playbackPanel);
     }
 
     public void finishProcessing() {
-        actionButton.setText(LISTEN_LABEL);
+        setListenStatus(LISTEN_LABEL);//actionButton.setText(LISTEN_LABEL);
         setPlaybackControlEnabled(true);
         buttonState = ButtonState.START;
-        actionButton.setEnabled(true);
-        visualizer.setIndeterminate(false);
+        setListenEnabled(true);//actionButton.setEnabled(true);
+        System.out.println("visualizer.setIndeterminate(false)");
+//        visualizer.setIndeterminate(false);
         controller.processingFinished();
     }
 
     @Override
     public void rmsChanged(int rms) { // AudioRMSListener callback
-        visualizer.setValue(rms); // update the visualizer
+        System.out.println("rmsChanged(" + rms + ")");
+//        visualizer.setValue(rms); // update the visualizer
     }
 
     @Override
@@ -381,14 +398,14 @@ public class AVSApp extends JFrame
         Thread thread = new Thread() {
             @Override
             public void run() {
-                while (!actionButton.isEnabled() || buttonState != ButtonState.START
+                while (!getListenEnabled() || buttonState != ButtonState.START
                         || controller.isSpeaking()) {
                     try {
                         Thread.sleep(500);
                     } catch (Exception e) {
                     }
                 }
-                actionButton.doClick();
+                listen();//actionButton.doClick();
             }
         };
         thread.start();
@@ -397,86 +414,107 @@ public class AVSApp extends JFrame
     @Override
     public void onStopCaptureDirective() {
         if (buttonState == ButtonState.STOP) {
-            actionButton.doClick();
+            listen();//actionButton.doClick();
         }
     }
 
-    public int showYesNoDialog(String message, String title) {
-        JTextArea textMessage = new JTextArea(message);
-        textMessage.setEditable(false);
-        return JOptionPane.showConfirmDialog(getContentPane(), textMessage, title,
-                JOptionPane.YES_NO_OPTION);
-    }
-
-    public void showDialog(String message, String title) {
-        JTextArea textMessage = new JTextArea(message);
-        textMessage.setEditable(false);
-        JOptionPane.showMessageDialog(getContentPane(), textMessage, title,
-                JOptionPane.INFORMATION_MESSAGE);
-    }
+//    public int showYesNoDialog(String message, String title) {
+//        JTextArea textMessage = new JTextArea(message);
+//        textMessage.setEditable(false);
+//        return JOptionPane.showConfirmDialog(getContentPane(), textMessage, title,
+//                JOptionPane.YES_NO_OPTION);
+//    }
+//
+//    public void showDialog(String message, String title) {
+//        JTextArea textMessage = new JTextArea(message);
+//        textMessage.setEditable(false);
+//        JOptionPane.showMessageDialog(getContentPane(), textMessage, title,
+//                JOptionPane.INFORMATION_MESSAGE);
+//    }
 
     @Override
     public void displayRegCode(String regCode) {
         String title = "Login to Register/Authenticate your Device";
         String regUrl =
                 deviceConfig.getCompanionServiceInfo().getServiceUrl() + "/provision/" + regCode;
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
-            int selected = showYesNoDialog(
-                    "Please register your device by visiting the following URL in "
-                            + "a web browser and follow the instructions:\n" + regUrl
-                            + "\n\n Would you like to open the URL automatically in your default browser?",
-                    title);
-            if (selected == JOptionPane.YES_OPTION) {
-                try {
-                    Desktop.getDesktop().browse(new URI(regUrl));
-                } catch (Exception e) {
-                    // Ignore and proceed
-                }
-                title = "Click OK after Registering/Authenticating Device";
-                showDialog(
-                        "If a browser window did not open, please copy and paste the below URL into a "
-                                + "web browser, and follow the instructions:\n" + regUrl
-                                + "\n\n Click the OK button when finished.",
-                        title);
-            } else {
-                handleAuthenticationCopyToClipboard(title, regUrl);
+
+        System.out.println("Please register your device by visiting the following URL in "
+                + "a web browser and follow the instructions:\n" + regUrl);
+
+        System.out.println("Type OK after Registering/Authenticating Device");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+            try {
+                String line = reader.readLine();
+                if (line != null && line.equalsIgnoreCase("OK"))
+                    break;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } else {
-            handleAuthenticationCopyToClipboard(title, regUrl);
         }
+
+        System.out.println("Registered URL... Continue");
+//        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
+//            int selected = showYesNoDialog(
+//                    "Please register your device by visiting the following URL in "
+//                            + "a web browser and follow the instructions:\n" + regUrl
+//                            + "\n\n Would you like to open the URL automatically in your default browser?",
+//                    title);
+//            if (selected == JOptionPane.YES_OPTION) {
+//                try {
+//                    Desktop.getDesktop().browse(new URI(regUrl));
+//                } catch (Exception e) {
+//                    // Ignore and proceed
+//                }
+//                title = "Click OK after Registering/Authenticating Device";
+//                showDialog(
+//                        "If a browser window did not open, please copy and paste the below URL into a "
+//                                + "web browser, and follow the instructions:\n" + regUrl
+//                                + "\n\n Click the OK button when finished.",
+//                        title);
+//            } else {
+//                handleAuthenticationCopyToClipboard(title, regUrl);
+//            }
+//        } else {
+//            handleAuthenticationCopyToClipboard(title, regUrl);
+//        }
     }
 
-    private void handleAuthenticationCopyToClipboard(String title, String regUrl) {
-        int selected =
-                showYesNoDialog("Please register your device by visiting the following URL in "
-                        + "a web browser and follow the instructions:\n" + regUrl
-                        + "\n\n Would you like the URL copied to your clipboard?", title);
-        if (selected == JOptionPane.YES_OPTION) {
-            copyToClipboard(regUrl);
-        }
-        showDialog("Click the OK button once you've authenticated with AVS", title);
-    }
+//    private void handleAuthenticationCopyToClipboard(String title, String regUrl) {
+//        int selected =
+//                showYesNoDialog("Please register your device by visiting the following URL in "
+//                        + "a web browser and follow the instructions:\n" + regUrl
+//                        + "\n\n Would you like the URL copied to your clipboard?", title);
+//        if (selected == JOptionPane.YES_OPTION) {
+//            copyToClipboard(regUrl);
+//        }
+//        showDialog("Click the OK button once you've authenticated with AVS", title);
+//    }
 
-    private void copyToClipboard(String text) {
-        Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-        Clipboard systemClipboard = defaultToolkit.getSystemClipboard();
-        systemClipboard.setContents(new StringSelection(text), null);
-    }
+//    private void copyToClipboard(String text) {
+//        Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+//        Clipboard systemClipboard = defaultToolkit.getSystemClipboard();
+//        systemClipboard.setContents(new StringSelection(text), null);
+//    }
 
     @Override
     public synchronized void onAccessTokenReceived(String accessToken) {
-        if (tokenTextField == null) {
-            this.accessToken = accessToken;
-        } else {
-            tokenTextField.setText(accessToken);
-        }
+//        if (tokenTextField == null) {
+//            this.accessToken = accessToken;
+//        } else {
+//            tokenTextField.setText(accessToken);
+//        }
+        this.accessToken = accessToken;
+        System.out.println("Access Token received: " + accessToken);
     }
 
     @Override
     public synchronized void onWakeWordDetected() {
         if (buttonState == ButtonState.START) { // if in idle mode
             log.info("Wake Word was detected");
-            actionButton.doClick();
+            System.out.println("Wake Word was detected");
+            listen();//actionButton.doClick();
         }
     }
 }

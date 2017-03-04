@@ -13,6 +13,8 @@ ClientID=YOUR_CLIENT_ID_HERE
 # Retrieve your client secret from the web settings tab within the developer console: https://developer.amazon.com/edw/home.html
 ClientSecret=YOUR_CLIENT_SECRET_HERE
 
+source credentials
+
 #-------------------------------------------------------
 # No need to change anything below this...
 #-------------------------------------------------------

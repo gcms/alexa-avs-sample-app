@@ -18,7 +18,9 @@ public enum SpeechProfile {
     CLOSE_TALK("CLOSE_TALK"),
     
     // For a tap-to-talk device that relies on Alexa's end-of-speech detection.
-    NEAR_FIELD("NEAR_FIELD");
+    NEAR_FIELD("NEAR_FIELD"),
+
+    FAR_FIELD("FAR_FIELD");
 
     private final String profileName;
 
