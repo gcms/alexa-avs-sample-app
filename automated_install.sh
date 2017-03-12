@@ -13,8 +13,6 @@ ClientID=YOUR_CLIENT_ID_HERE
 # Retrieve your client secret from the web settings tab within the developer console: https://developer.amazon.com/edw/home.html
 ClientSecret=YOUR_CLIENT_SECRET_HERE
 
-source ~/.alexa/credentials
-
 #-------------------------------------------------------
 # No need to change anything below this...
 #-------------------------------------------------------
@@ -35,6 +33,8 @@ Organization='AVS_USER'
 DeviceSerialNumber='123456789'
 # Your KeyStorePassword. We recommend leaving this blank for testing.
 KeyStorePassword=''
+
+source ~/.alexa/credentials
 
 #-------------------------------------------------------
 # Function to parse user's input.

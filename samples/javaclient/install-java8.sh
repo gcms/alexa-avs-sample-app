@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # Ensure we are running on Raspbian
@@ -5,6 +6,12 @@ lsb_release -a 2>/dev/null | grep Raspbian
 if [ "$?" -ne "0" ]; then
     echo "This OS is not Raspbian. Exiting..."
     exit 1
+fi
+
+# Check if it's already installed
+INSTALLED=$(dpkg -s oracle-java8-set-default | egrep "^Status: .*installed")
+if [ "$INSTALLED" ]; then
+    exit 0
 fi
 
 # Determine which version of Raspbian we are running on
