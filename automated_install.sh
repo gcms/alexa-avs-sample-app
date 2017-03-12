@@ -34,7 +34,8 @@ DeviceSerialNumber='123456789'
 # Your KeyStorePassword. We recommend leaving this blank for testing.
 KeyStorePassword=''
 
-CompanionServiceEndpoint=localhost:3000
+CompanionServiceHost=localhost
+CompanionServiceEndpoint=${CompanionServiceHost}:3000
 
 source ~/.alexa/credentials
 
