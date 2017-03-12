@@ -1,3 +1,4 @@
+
 /**
  * @module
  * This module defines the settings that need to be configured for a new
@@ -16,7 +17,7 @@
 var config = {
     clientId: "${ClientID}",
     clientSecret: "${ClientSecret}",
-    redirectUrl: 'https://localhost:3000/authresponse',
+    redirectUrl: 'https://${CompanionServiceEndpoint}/authresponse',
     lwaRedirectHost: "amazon.com",
     lwaApiHost: "api.amazon.com",
     validateCertChain: true,
