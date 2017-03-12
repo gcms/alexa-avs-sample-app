@@ -35,9 +35,11 @@ DeviceSerialNumber='123456789'
 KeyStorePassword=''
 
 CompanionServiceHost=localhost
-CompanionServiceEndpoint=${CompanionServiceHost}:3000
-
 source ~/.alexa/credentials
+
+if [ ! "${CompanionServiceEndpoint}" ]; then
+  CompanionServiceEndpoint=${CompanionServiceHost}:3000
+fi
 
 
 #-------------------------------------------------------
