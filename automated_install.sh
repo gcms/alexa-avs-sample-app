@@ -36,6 +36,17 @@ KeyStorePassword=''
 
 source ~/.alexa/credentials
 
+
+#-------------------------------------------------------
+# Function to check if a package is installed.
+#-------------------------------------------------------
+# Arguments are: Package-name
+# Returns empty if false, non-empty if true
+is_installed() {
+  dpkg -s "$1" | egrep "Status: .*installed"
+}
+
+
 #-------------------------------------------------------
 # Function to parse user's input.
 #-------------------------------------------------------
@@ -474,11 +485,13 @@ sudo apt-get -y install libatlas-base-dev
 sudo ldconfig
 
 echo "========== Installing VLC and associated Environmental Variables =========="
+if [ ! "$(is_installed vlc-nox)" ]; then
 sudo apt-get install -y vlc-nox vlc-data
 #Make sure that the libraries can be found
 sudo sh -c "echo \"/usr/lib/vlc\" >> /etc/ld.so.conf.d/vlc_lib.conf"
 sudo sh -c "echo \"VLC_PLUGIN_PATH=\"/usr/lib/vlc/plugin\"\" >> /etc/environment"
 sudo ldconfig
+fi
 
 echo "========== Installing NodeJS =========="
 sudo apt-get install -y nodejs npm build-essential
